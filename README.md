@@ -6,7 +6,7 @@ The Mark II is an updated design to the original TypeBoy keyboard. It continues 
 
 ## Primary Features
 
-![The TypeBoy Mk II KiCAD Diagram](./images/TypeBoy_KiCAD.jpg)
+![The TypeBoy Mk II KiCAD Diagram](./images/TypeBoy_KiCAD.png)
 
 * TypeBoy Catridge Support (Integrated XAIO BLE, LiPo Battery, Shift Register, and Sharp Memory Display)
 * 6x4+5 ortholinear layout with a staggered modifier row and enlarged space keys.
@@ -17,7 +17,7 @@ The Mark II is an updated design to the original TypeBoy keyboard. It continues 
 
 ## Ergogen Outputs
 
-![The bottom PCB of the TypeBoy Mk II.](./images/TypeBoy_Bottom.png)
+![The bottom PCB of the TypeBoy Mk II.](./images/TypeBoy_Bottom.jpg)
 
 The TypeBoy Mk II was designed once again using the [Ergogen](https://github.com/ergogen/ergogen) keyboard layout generator. In this instance, Ergogen was used to create the PCB outputs for the top, middle, and bottom layers of the keyboard. The silkscreen designs were created in Figma and imported directly into the KiCAD outputs. The final routing for the middle layer was also performed in KiCAD.
 

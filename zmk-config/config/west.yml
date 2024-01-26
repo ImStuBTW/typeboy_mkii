@@ -1,0 +1,11 @@
+manifest:
+  remotes:
+    - name: zmkfirmware
+      url-base: https://github.com/zmkfirmware
+    - name: bortoz
+      url-base: https://github.com/bortoz
+  projects:
+    - name: zmk
+      remote: bortoz
+      revision: led-indicators
+      import: app/west.yml

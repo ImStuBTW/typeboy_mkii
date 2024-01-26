@@ -1,0 +1,317 @@
+units:
+  # Choc keycap dimensions
+  capx: 17  
+  capy: 16
+  # Choc key spacing dimensions
+  kx: 18    
+  ky: 17
+
+  # Constants
+  $default_height: 0  # Points invisible by default unless height/width explicitly set
+  $default_width: 0
+  m3_diameter: 3.2
+
+points.zones:
+  # Define points for Zenestra case outline
+  extent:
+    anchor.shift: [150, -180]  # Fix placement on KiCAD sheet
+    key:
+      name: "{{zone.name}}_{{row}}_{{col.name}}"
+      padding: 100 / 2
+    rows:
+      bottom:
+      middle:
+      top:
+    columns:
+      left:
+      left_second.key.spread: 51.267
+      right_second.key.spread: 47.667
+      right.key.spread: 51.267
+  extent_center.anchor:
+    aggregate.parts:
+    - extent_middle_left
+    - extent_middle_right
+
+  # Define mounting hole points.
+  mount_top_left.anchor:
+    ref: extent_top_left
+    shift: [3.6, -3.6]
+  mount_top_left_second.anchor:
+    ref: extent_top_left_second
+    shift: [0, -3.6]
+  mount_top_right_second.anchor:
+    ref: extent_top_right_second
+    shift: [0, -3.6]
+  mount_top_right.anchor:
+    ref: extent_top_right
+    shift: [-3.6, -3.6]
+  mount_middle_left.anchor:
+    ref: extent_middle_left
+    shift: [3.6, 0]
+  mount_middle_right.anchor:
+    ref: extent_middle_right
+    shift: [-3.6, 0]
+  mount_bottom_left.anchor:
+    ref: extent_bottom_left
+    shift: [3.6, 3.6]
+  mount_bottom_left_second.anchor:
+    ref: extent_bottom_left_second
+    shift: [0, 3.6]
+  mount_bottom_right_second.anchor:
+    ref: extent_bottom_right_second
+    shift: [0, 3.6]
+  mount_bottom_right.anchor:
+    ref: extent_bottom_right
+    shift: [-3.6, 3.6]
+
+  # Define the actual points for our keys.
+  key_matrix:
+    # Move Key Matrix location inside the PCB points.
+    anchor:
+      - ref: extent_top_left
+        shift: [0.5kx,  -3ky + 0.5ky]  # Top left
+      - shift: [0.5+7, -41.5]
+    # Set Default Choc Spacing
+    key:
+      width: capx
+      height: capy
+      spread: kx
+      padding: ky
+    # Column Definitions
+    columns:
+      outer:
+        # Skip the key under "Shift"
+        rows.mod.skip: true
+        key.column_net: col0
+      pinky:
+        # Shift the mod row over by half a key, then shift the rest back.
+        rows.bottom.shift: [-0.5cx, 0]
+        rows.mod.shift: [0.5cx, 0]
+        key.column_net: col1
+      ring:
+        rows.bottom.shift: [-0.5cx, 0]
+        rows.mod.shift: [0.5cx, 0]
+        key.column_net: col2
+      middle:
+        rows.bottom.shift: [-0.5cx, 0]
+        rows.mod.shift: [0.5cx, 0]
+        key.column_net: col3
+      index:
+        rows.bottom.shift: [-0.5cx, 0]
+        rows.mod.shift: [0.5cx, 0]
+        key.column_net: col4
+      inner:
+        # Use a large 1.5-wide space key.
+        rows.bottom.shift: [-0.75cx, 0]
+        rows.mod.shift: [0.75cx, 0]
+        rows.mod.width: 1.5cx
+        key.column_net: col5
+    # Row Definitions
+    rows:
+      mod.row_net: row4
+      bottom.row_net: row3
+      home.row_net: row2
+      top.row_net: row1
+      num.row_net: row0
+
+outlines:
+  # PCB Outline
+  pcb_edge_cuts:
+    - what: polygon
+      points:
+      - extent_top_left
+      - extent_top_right
+      - extent_bottom_right
+      - extent_bottom_left
+      fillet: 3.5
+  # Edge-Cut style mounting holes.
+  mounting_holes:
+    - what: circle
+      where: /^mount_.*/
+      radius: m3_diameter / 2
+  # PCB with mounting holes.
+  pcb_mounting_holes:
+    - pcb_edge_cuts
+    - ^mounting_holes
+  # Keepout Components
+  _keepout_inset_pcb_edge_cuts:
+    - name: pcb_edge_cuts
+      expand: -0.01
+  _keepout_inner_margin:
+    - name: pcb_edge_cuts
+      expand: -3.6
+  _keepout_outer_margin:
+    - name: pcb_edge_cuts
+      expand: 5
+    - -pcb_edge_cuts
+  _keepout_mounting_rectangles:
+    - what: rectangle
+      where: /^mount_.*/
+      size: [7.2, 7.2]
+  _keepout_mounting_circles:
+    - what: circle
+      where: /^mount_.*/
+      radius: 3.6
+  # Keepout Areas for Zenestra Case
+  pcb_keepout:
+    - _keepout_mounting_rectangles
+    - -_keepout_inner_margin
+    - _keepout_mounting_circles
+    - name: _keepout_outer_margin
+      fillet: 2
+    - ~_keepout_inset_pcb_edge_cuts
+    - -mounting_holes
+    - what: circle
+      where: extent_center
+      radius: 6.25 / 2
+  # Footprint Outlines
+  switches:
+    - what: rectangle
+      size: 14
+      where: /^key_.*/
+      fillet: 0.5
+    - operation: add
+      what: rectangle
+      size: 14
+      where: /^thumb.*/
+      fillet: 0.5
+  # Keycap Outlines
+  keycaps:
+    - what: rectangle
+      size: [capx, capy]
+      where: /^key_.*/
+    - operation: add
+      what: rectangle
+      size: [1.5capx, capy]
+      where: /^key_matrix_inner_mod.*/
+  # Inner Outline for Top Plate.
+  keyarea:
+    - what: rectangle
+      size: [kx+1, ky+1]
+      where: /^key_.*/
+    - operation: add
+      what: rectangle
+      size: [1.5kx+1, ky+1]
+      where: /^key_matrix_inner_mod.*/
+      fillet: 1
+  # Visualization w/ Keycap Outlines
+  demo_keycaps:
+    - pcb_mounting_holes
+    - ^pcb_keepout
+    - ^switches
+    - ^keycaps
+  # Cartridge Cutout Area
+  cartridge:
+    - what: rectangle
+      size: [30, 61]
+      where:
+        ref: key_matrix_inner_num
+        shift: [0.5kx+0.5+15+7, 0.5ky+0.5-(61/2)]
+      fillet: 1
+  # Top Plate Outline
+  top_plate:
+  - pcb_edge_cuts
+  - ^keyarea
+  - -cartridge
+
+pcbs:
+  # PCB for bottom plate.
+  typeboy_bottom:
+    outlines:
+      main:
+        outline: pcb_edge_cuts
+      keepout:
+        outline: pcb_keepout
+        layer: B.CrtYd
+    footprints:
+      # Mounting Holes (Fixed to use correct M3 footprint!)
+      - what: mountinghole_m3
+        where: /^mount_.*/
+  # PCB for top plate.
+  typeboy_top:
+    outlines:
+      main:
+        outline: top_plate
+    footprints:
+      # Mounting Holes (Fixed to use correct M3 footprint!)
+      - what: mountinghole_m3
+        where: mount_top_left
+      - what: mountinghole_m3
+        where: mount_top_left_second
+      - what: mountinghole_m3
+        where: mount_top_right_second
+      - what: mountinghole_m3
+        where: mount_top_right
+      - what: mountinghole_m3
+        where: mount_middle_left
+      - what: mountinghole_m3
+        where: mount_bottom_left
+      - what: mountinghole_m3
+        where: mount_bottom_left_second
+      - what: mountinghole_m3
+        where: mount_bottom_right_second
+      - what: mountinghole_m3
+        where: mount_bottom_right
+  # Main PCB.
+  typeboy_mkii:
+    outlines:
+      main:
+        outline: pcb_edge_cuts
+      keepout:
+        outline: pcb_keepout
+        layer: B.CrtYd
+    footprints:
+      # Hotswap Choc keys.
+      - what: choc
+        where: /^key_.|^thumb_.*/
+        params:
+          keycaps: true
+          reverse: true
+          hotswap: true
+          from: "{{column_net}}"
+          to: "{{colrow}}"
+      # Through Hole or SMD Diodes
+      - what: diode
+        where: /^key_.|^thumb_.*/
+        params:
+          from: "{{colrow}}"
+          to: "{{row_net}}"
+        adjust:
+          shift: [0, -5]
+      # Mounting Holes (Fixed to use correct M3 footprint!)
+      - what: mountinghole_m3
+        where: /^mount_.*/
+      # GBA Cartridge Slot 
+      - what: gbareversible
+        where:
+          ref: key_matrix_inner_num
+          shift: [1kx+3+1,0.5ky-30.5]
+          rotate: -90
+      # Low Profile Rotary Encoder
+      - what: lowproro
+        params:
+          A: MISO
+          COM: GND
+          PUSH: NFC0
+          B: NFC1
+        where:
+          ref.aggregate.parts: [mount_bottom_left, mount_bottom_left_second]
+          shift: [-6.75, 0.25ky+3.5]
+          rotate: 0
+      # Right Angle Power Switch
+      - what: spdt
+        params:
+          from: BATOUT
+          to: BATIN
+        where:
+          ref.aggregate.parts: [mount_middle_right, mount_bottom_right]
+          shift: [1, -12.25]
+          rotate: 90
+      # Right Angle Reset Button
+      - what: buttonrightangle
+        params:
+          from: GND
+          to: RST
+        where:
+          ref.aggregate.parts: [mount_top_right_second, mount_top_right]
+          shift: [11.75, 0.6]

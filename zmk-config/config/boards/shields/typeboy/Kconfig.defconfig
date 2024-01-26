@@ -1,0 +1,32 @@
+if SHIELD_TYPEBOY_LEFT
+
+config ZMK_KEYBOARD_NAME
+    default "TypeBoy"
+    
+config ZMK_SPLIT_ROLE_CENTRAL
+    default y
+
+endif
+
+if SHIELD_TYPEBOY_LEFT || SHIELD_TYPEBOY_RIGHT
+
+config ZMK_SPLIT
+    default y
+
+config ZMK_DISPLAY
+	select LV_FONT_MONTSERRAT_28
+
+if ZMK_DISPLAY
+
+config SPI
+	default y
+
+config LS0XX
+	default y
+
+config ZMK_DISPLAY_INVERT
+	default y
+
+endif # ZMK_DISPLAY
+
+endif

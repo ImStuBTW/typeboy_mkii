@@ -1,0 +1,12 @@
+id: typeboy
+name: TypeBoy
+type: shield
+url: https://github.com/ImStuBTW/typeboy_and_typepak
+requires: [seeeduino_xiao_ble]
+features:
+  - keys
+  - display
+  - encoder
+siblings:
+  - typeboy_left
+  - typeboy_right

@@ -1,12 +1,12 @@
 # The TypeBoy Mk II
 
-![The TypeBoy Mark II Keyboard](../images/TypeBoy_MkII.jpg)
+![The TypeBoy Mark II Keyboard](./images/TypeBoy_MkII.jpg)
 
 The Mark II is an updated design to the original TypeBoy keyboard. It continues to leverage the "TypePak" catridge to house the keyboard's microcontroller and other support circuitry. This revision of the TypeBoy uses a more traditional ortholinear keyboard layout, and replaces the previous 3D printed design with a PCB sandwich approach. For more information on the keyboard's background, please feel free to check out this companying blog post.
 
 ## Primary Features
 
-![The TypeBoy Mk II KiCAD Diagram](../images/TypeBoy_KiCAD.jpg)
+![The TypeBoy Mk II KiCAD Diagram](./images/TypeBoy_KiCAD.jpg)
 
 * TypeBoy Catridge Support (Integrated XAIO BLE, LiPo Battery, Shift Register, and Sharp Memory Display)
 * 6x4+5 ortholinear layout with a staggered modifier row and enlarged space keys.
@@ -17,7 +17,7 @@ The Mark II is an updated design to the original TypeBoy keyboard. It continues 
 
 ## Ergogen Outputs
 
-![The bottom PCB of the TypeBoy Mk II.](../images/TypeBoy_Bottom.png)
+![The bottom PCB of the TypeBoy Mk II.](./images/TypeBoy_Bottom.png)
 
 The TypeBoy Mk II was designed once again using the [Ergogen](https://github.com/ergogen/ergogen) keyboard layout generator. In this instance, Ergogen was used to create the PCB outputs for the top, middle, and bottom layers of the keyboard. The silkscreen designs were created in Figma and imported directly into the KiCAD outputs. The final routing for the middle layer was also performed in KiCAD.
 
@@ -44,7 +44,7 @@ Ergogen v4 supports custom footprints! The TypeBoy colors outsides the lines and
 | 1N4148 T4 Diodes                 | 58             | $3.00 USD   | https://www.aliexpress.us/item/2255800498728983.html |
 | Choc Switches                    | 58             | $28.00 USD  | https://www.aliexpress.us/item/3256805260407528.html |
 | Choc Keycaps                     | Alphas + Mods  | $~60.00 USD | https://mkultra.click/mbk-legend-keycaps/ |
-| 3D Printed Case                  | Buy Your Buddy Some Filament | Varies | https://github.com/ImStuBTW/typeboy_mkii/ |
+| 3D Printed Case                  | A Few mm of Filament | Varies | https://github.com/ImStuBTW/typeboy_mkii/ |
 | 12mm M3 Screws                   | 18             | $2.00 USD   | https://www.aliexpress.us/item/3256803547633472.html |
 | M3 Washers                       | 54             | $10.00 USD  | https://www.aliexpress.us/item/3256804700714045.html |
 | M3 Nuts                          | 18             | $5.00 USD   | https://www.aliexpress.us/item/2255800148575548.html |
